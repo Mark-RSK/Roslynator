@@ -25,7 +25,7 @@ namespace Roslynator.CSharp.Refactorings
                 && !IsStringConcatenation(context, binaryExpression)
                 && left.GetTrailingTrivia().All(f => f.IsKind(SyntaxKind.WhitespaceTrivia))
                 && CheckOperatorTrailingTrivia(binaryExpression.OperatorToken.TrailingTrivia)
-                && right.GetLeadingTrivia().All(f => f.IsWhitespaceOrEndOfLineTrivia()))
+                && right.GetLeadingTrivia().IsEmptyOrWhitespace())
             {
                 context.ReportDiagnostic(
                     DiagnosticDescriptors.FormatBinaryOperatorOnNextLine,

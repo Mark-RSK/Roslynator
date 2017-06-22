@@ -3364,9 +3364,6 @@ namespace Roslynator.CSharp
 
         internal static bool IsEmptyOrWhitespace(this SyntaxTriviaList triviaList)
         {
-            if (!triviaList.Any())
-                return true;
-
             foreach (SyntaxTrivia trivia in triviaList)
             {
                 if (!trivia.IsWhitespaceOrEndOfLineTrivia())
