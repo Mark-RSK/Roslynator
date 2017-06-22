@@ -273,13 +273,13 @@ namespace Roslynator.CSharp.Refactorings
 
             newStatement = (leading.All(f => f.IsWhitespaceOrEndOfLineTrivia()))
                 ? newStatement.WithLeadingTrivia(ifStatement.GetLeadingTrivia())
-                : newStatement.WithLeadingTrivia(ifStatement.GetLeadingTrivia().Concat(leading));
+                : newStatement.WithLeadingTrivia(ifStatement.GetLeadingTrivia().AddRange(leading));
 
             IEnumerable<SyntaxTrivia> trailing = ifStatement.DescendantTrivia(TextSpan.FromBounds(statement.Span.End, ifStatement.Span.End));
 
             newStatement = (leading.All(f => f.IsWhitespaceOrEndOfLineTrivia()))
                 ? newStatement.WithTrailingTrivia(ifStatement.GetTrailingTrivia())
-                : newStatement.WithTrailingTrivia(trailing.Concat(ifStatement.GetTrailingTrivia()));
+                : newStatement.WithTrailingTrivia(ifStatement.GetTrailingTrivia().InsertRange(0, trailing));
 
             return document.ReplaceNodeAsync(ifStatement, newStatement, cancellationToken);
         }

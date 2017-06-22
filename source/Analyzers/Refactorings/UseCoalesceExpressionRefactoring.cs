@@ -228,7 +228,7 @@ namespace Roslynator.CSharp.Refactorings
                         else
                         {
                             newNode = newNode
-                                .WithLeadingTrivia(ifStatement.GetLeadingTrivia().Concat(trivia))
+                                .WithLeadingTrivia(ifStatement.GetLeadingTrivia().AddRange(trivia))
                                 .WithFormatterAnnotation();
                         }
 

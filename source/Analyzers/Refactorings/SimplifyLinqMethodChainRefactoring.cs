@@ -76,7 +76,7 @@ namespace Roslynator.CSharp.Refactorings
 
             if (trivia.Any(f => !f.IsWhitespaceOrEndOfLineTrivia()))
             {
-                newNode = newNode.WithTrailingTrivia(trivia.Concat(invocation.GetTrailingTrivia()));
+                newNode = newNode.WithTrailingTrivia(invocation.GetTrailingTrivia().InsertRange(0, trivia));
             }
             else
             {

@@ -172,7 +172,7 @@ namespace Roslynator.CSharp.Refactorings
 
             if (!trailingTrivia.IsEmptyOrWhitespace())
             {
-                newLocalDeclaration = newLocalDeclaration.WithTrailingTrivia(trailingTrivia.Concat(nextStatement.GetTrailingTrivia()));
+                newLocalDeclaration = newLocalDeclaration.WithTrailingTrivia(trailingTrivia.AddRange(nextStatement.GetTrailingTrivia()));
             }
             else
             {
@@ -183,7 +183,7 @@ namespace Roslynator.CSharp.Refactorings
 
             if (!leadingTrivia.IsEmptyOrWhitespace())
             {
-                newLocalDeclaration = newLocalDeclaration.WithLeadingTrivia(newLocalDeclaration.GetLeadingTrivia().Concat(leadingTrivia));
+                newLocalDeclaration = newLocalDeclaration.WithLeadingTrivia(newLocalDeclaration.GetLeadingTrivia().AddRange(leadingTrivia));
             }
 
             SyntaxList<StatementSyntax> newStatements = statements

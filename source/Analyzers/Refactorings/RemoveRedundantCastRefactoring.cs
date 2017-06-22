@@ -216,7 +216,7 @@ namespace Roslynator.CSharp.Refactorings
             }
             else
             {
-                trailing = trailing.Concat(invocation.GetTrailingTrivia());
+                trailing = invocation.GetTrailingTrivia().InsertRange(0, trailing);
             }
 
             ExpressionSyntax newNode = expression

@@ -63,7 +63,7 @@ namespace Roslynator.CSharp.Refactorings
             else
             {
                 newNode = newNode
-                    .WithTrailingTrivia(trivia.Concat(binaryExpression.GetTrailingTrivia()))
+                    .WithTrailingTrivia(binaryExpression.GetTrailingTrivia().InsertRange(0, trivia))
                     .WithFormatterAnnotation();
             }
 

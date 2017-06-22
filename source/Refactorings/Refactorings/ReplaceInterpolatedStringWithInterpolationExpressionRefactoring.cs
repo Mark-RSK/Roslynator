@@ -42,9 +42,9 @@ namespace Roslynator.CSharp.Refactorings
 
             newNode = newNode
                 .PrependToLeadingTrivia(interpolation.GetLeadingTrivia()
-                    .Concat(interpolation.OpenBraceToken.TrailingTrivia))
+                    .AddRange(interpolation.OpenBraceToken.TrailingTrivia))
                 .AppendToTrailingTrivia(interpolation.CloseBraceToken.LeadingTrivia
-                    .Concat(interpolatedString.GetTrailingTrivia()));
+                    .AddRange(interpolatedString.GetTrailingTrivia()));
 
             return document.ReplaceNodeAsync(interpolatedString, newNode, cancellationToken);
         }

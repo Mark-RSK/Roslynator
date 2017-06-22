@@ -301,7 +301,7 @@ namespace Roslynator.CSharp.Refactorings
 
             if (!trivia.All(f => f.IsWhitespaceOrEndOfLineTrivia()))
             {
-                newStatement = newStatement.WithLeadingTrivia(leadingTrivia.Concat(trivia));
+                newStatement = newStatement.WithLeadingTrivia(leadingTrivia.AddRange(trivia));
             }
             else
             {

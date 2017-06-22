@@ -67,7 +67,7 @@ namespace Roslynator.CSharp.Refactorings.ReplaceMethodWithProperty
             {
                 node = node.AppendToTrailingTrivia(
                     argumentList.OpenParenToken.GetLeadingAndTrailingTrivia()
-                        .Concat(argumentList.CloseParenToken.GetLeadingAndTrailingTrivia()));
+                        .AddRange(argumentList.CloseParenToken.GetLeadingAndTrailingTrivia()));
             }
 
             return node;
@@ -97,7 +97,7 @@ namespace Roslynator.CSharp.Refactorings.ReplaceMethodWithProperty
             if (parameterList?.IsMissing == false)
             {
                 identifier = identifier.AppendToTrailingTrivia(
-                    parameterList.OpenParenToken.GetLeadingAndTrailingTrivia().Concat(
+                    parameterList.OpenParenToken.GetLeadingAndTrailingTrivia().AddRange(
                         parameterList.CloseParenToken.GetLeadingAndTrailingTrivia()));
             }
 

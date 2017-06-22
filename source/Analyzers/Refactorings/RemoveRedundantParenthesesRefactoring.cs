@@ -177,12 +177,12 @@ namespace Roslynator.CSharp.Refactorings
             ExpressionSyntax expression = parenthesizedExpression.Expression;
 
             IEnumerable<SyntaxTrivia> leading = parenthesizedExpression.GetLeadingTrivia()
-                .Concat(parenthesizedExpression.OpenParenToken.TrailingTrivia)
-                .Concat(expression.GetLeadingTrivia());
+                .AddRange(parenthesizedExpression.OpenParenToken.TrailingTrivia)
+                .AddRange(expression.GetLeadingTrivia());
 
             IEnumerable<SyntaxTrivia> trailing = expression.GetTrailingTrivia()
-                .Concat(parenthesizedExpression.CloseParenToken.LeadingTrivia)
-                .Concat(parenthesizedExpression.GetTrailingTrivia());
+                .AddRange(parenthesizedExpression.CloseParenToken.LeadingTrivia)
+                .AddRange(parenthesizedExpression.GetTrailingTrivia());
 
             return document.ReplaceNodeAsync(
                 parenthesizedExpression,
