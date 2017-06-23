@@ -3,12 +3,12 @@
 using System.Collections.Immutable;
 using System.Composition;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
-using System.Threading;
 using Roslynator.CSharp;
 
 namespace Roslynator.CSharp.CodeFixProviders
@@ -46,11 +46,7 @@ namespace Roslynator.CSharp.CodeFixProviders
             SyntaxToken token,
             CancellationToken cancellationToken)
         {
-            SyntaxNode node = token.Parent;
-
-            SyntaxNode newNode = node.RemoveModifier(token);
-
-            return document.ReplaceNodeAsync(node, newNode, cancellationToken);
+            return document.RemoveModifierAsync(token.Parent, token, cancellationToken);
         }
     }
 }

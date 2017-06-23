@@ -10,7 +10,6 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp.Comparers;
-using Roslynator.CSharp.Helpers;
 using Roslynator.CSharp.Refactorings;
 
 namespace Roslynator.CSharp.CodeFixes
@@ -223,21 +222,11 @@ namespace Roslynator.CSharp.CodeFixes
                                     if (memberDeclaration.IsKind(SyntaxKind.MethodDeclaration)
                                         && memberDeclaration.IsParentKind(SyntaxKind.ClassDeclaration, SyntaxKind.StructDeclaration))
                                     {
-                                        var parentMember = (MemberDeclarationSyntax)memberDeclaration.Parent;
-
-                                        SyntaxTokenList newModifiers = parentMember.GetModifiers().InsertModifier(SyntaxKind.PartialKeyword, ModifierComparer.Instance);
-
-                                        MemberDeclarationSyntax newNode = parentMember.WithModifiers(newModifiers);
-
-                                        return context.Document.ReplaceNodeAsync(parentMember, newNode, context.CancellationToken);
+                                        return context.Document.InsertModifierAsync(memberDeclaration.Parent, SyntaxKind.PartialKeyword, ModifierComparer.Instance, cancellationToken);
                                     }
                                     else if (memberDeclaration.IsKind(SyntaxKind.ClassDeclaration, SyntaxKind.StructDeclaration, SyntaxKind.InterfaceDeclaration))
                                     {
-                                        SyntaxTokenList newModifiers = memberDeclaration.GetModifiers().InsertModifier(SyntaxKind.PartialKeyword, ModifierComparer.Instance);
-
-                                        MemberDeclarationSyntax newNode = memberDeclaration.WithModifiers(newModifiers);
-
-                                        return context.Document.ReplaceNodeAsync(memberDeclaration, newNode, context.CancellationToken);
+                                        return context.Document.InsertModifierAsync(memberDeclaration, SyntaxKind.PartialKeyword, ModifierComparer.Instance, cancellationToken);
                                     }
 
                                     return Task.FromResult(context.Document);
@@ -282,14 +271,7 @@ namespace Roslynator.CSharp.CodeFixes
 
                             CodeAction codeAction = CodeAction.Create(
                                 "Add 'static' modifier",
-                                cancellationToken =>
-                                {
-                                    SyntaxTokenList newModifiers = memberDeclaration.GetModifiers().InsertModifier(SyntaxKind.StaticKeyword, ModifierComparer.Instance);
-
-                                    MemberDeclarationSyntax newNode = memberDeclaration.WithModifiers(newModifiers);
-
-                                    return context.Document.ReplaceNodeAsync(memberDeclaration, newNode, cancellationToken);
-                                },
+                                cancellationToken => context.Document.InsertModifierAsync(memberDeclaration, SyntaxKind.StaticKeyword, ModifierComparer.Instance, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -305,16 +287,7 @@ namespace Roslynator.CSharp.CodeFixes
 
                             CodeAction codeAction = CodeAction.Create(
                                 "Make containing class abstract",
-                                cancellationToken =>
-                                {
-                                    var classDeclaration = (ClassDeclarationSyntax)memberDeclaration.Parent;
-
-                                    SyntaxTokenList newModifiers = classDeclaration.GetModifiers().InsertModifier(SyntaxKind.AbstractKeyword, ModifierComparer.Instance);
-
-                                    MemberDeclarationSyntax newNode = classDeclaration.WithModifiers(newModifiers);
-
-                                    return context.Document.ReplaceNodeAsync(classDeclaration, newNode, cancellationToken);
-                                },
+                                cancellationToken => context.Document.InsertModifierAsync(memberDeclaration.Parent, SyntaxKind.AbstractKeyword, ModifierComparer.Instance, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -334,12 +307,7 @@ namespace Roslynator.CSharp.CodeFixes
 
                             CodeAction codeAction = CodeAction.Create(
                                 $"Make {memberDeclaration.GetTitle()} non-static",
-                                cancellationToken =>
-                                {
-                                    MemberDeclarationSyntax newNode = memberDeclaration.RemoveModifier(SyntaxKind.StaticKeyword);
-
-                                    return context.Document.ReplaceNodeAsync(memberDeclaration, newNode, cancellationToken);
-                                },
+                                cancellationToken => context.Document.RemoveModifierAsync(memberDeclaration, SyntaxKind.StaticKeyword, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);

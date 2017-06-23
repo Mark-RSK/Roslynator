@@ -23,6 +23,7 @@ namespace Roslynator.CSharp.CodeFixes.Test
         {
         }
 
+        /// <summary></summary>
         AddStaticModifier()
         {
         }
