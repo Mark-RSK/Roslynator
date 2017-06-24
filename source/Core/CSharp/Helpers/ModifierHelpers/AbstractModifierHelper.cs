@@ -181,5 +181,20 @@ namespace Roslynator.CSharp.Helpers.ModifierHelpers
 
             return trivia;
         }
+
+        public TNode RemoveAccessModifiers(TNode node)
+        {
+            SyntaxTokenList modifiers = GetModifiers(node);
+
+            for (int i = modifiers.Count - 1; i >= 0; i--)
+            {
+                SyntaxToken modifier = modifiers[i];
+
+                if (modifier.IsAccessModifier())
+                    node = RemoveModifier(node, modifiers, modifier, i);
+            }
+
+            return node;
+        }
     }
 }
