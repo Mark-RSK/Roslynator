@@ -80,7 +80,6 @@ namespace Roslynator.CSharp.Refactorings
         public const string MakeMemberAbstract = Prefix + "0069";
         public const string MakeMemberVirtual = Prefix + "0070";
         public const string MarkContainingClassAsAbstract = Prefix + "0071";
-        public const string MarkMemberAsStatic = Prefix + "0072";
         public const string MergeAssignmentExpressionWithReturnStatement = Prefix + "0073";
         public const string MergeAttributes = Prefix + "0074";
         public const string MergeIfStatements = Prefix + "0075";
@@ -134,7 +133,6 @@ namespace Roslynator.CSharp.Refactorings
         public const string ReplaceEqualsExpressionWithStringIsNullOrEmpty = Prefix + "0125";
         public const string ReplaceEqualsExpressionWithStringIsNullOrWhiteSpace = Prefix + "0126";
         public const string ReplaceExpressionWithConstantValue = Prefix + "0127";
-        public const string ReplaceFieldWithConstant = Prefix + "0128";
         public const string ReplaceForEachWithFor = Prefix + "0129";
         public const string ReplaceForWithForEach = Prefix + "0130";
         public const string ReplaceForWithWhile = Prefix + "0131";
@@ -174,6 +172,7 @@ namespace Roslynator.CSharp.Refactorings
         public const string UseBitwiseOperationInsteadOfCallingHasFlag = Prefix + "0164";
         public const string UseCoalesceExpressionInsteadOfIf = Prefix + "0165";
         public const string UseConditionalExpressionInsteadOfIf = Prefix + "0166";
+        public const string UseConstantInsteadOfField = Prefix + "0128";
         public const string UseElementAccessInsteadOfEnumerableMethod = Prefix + "0167";
         public const string UseEmptyStringLiteralInsteadOfStringEmpty = Prefix + "0168";
         public const string UseExpressionBodiedMember = Prefix + "0169";

@@ -9,7 +9,7 @@ using Roslynator.CSharp.Comparers;
 
 namespace Roslynator.CSharp.Refactorings
 {
-    internal static class ReplaceFieldWithConstantRefactoring
+    internal static class UseConstantInsteadOfFieldRefactoring
     {
         public static async Task<bool> CanRefactorAsync(
             RefactoringContext context,

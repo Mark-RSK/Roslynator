@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslynator.CSharp.Comparers;
+using Roslynator.CSharp.Helpers.ModifierHelpers;
 using Roslynator.CSharp.Refactorings;
 
 namespace Roslynator.CSharp.CodeFixes
@@ -269,9 +270,23 @@ namespace Roslynator.CSharp.CodeFixes
                             if (!Settings.IsCodeFixEnabled(CodeFixIdentifiers.AddStaticModifier))
                                 break;
 
+                            if (memberDeclaration.IsKind(SyntaxKind.ConstructorDeclaration)
+                                && ((ConstructorDeclarationSyntax)memberDeclaration).ParameterList?.Parameters.Any() == true)
+                            {
+                                break;
+                            }
+
                             CodeAction codeAction = CodeAction.Create(
                                 "Add 'static' modifier",
-                                cancellationToken => context.Document.InsertModifierAsync(memberDeclaration, SyntaxKind.StaticKeyword, ModifierComparer.Instance, cancellationToken),
+                                cancellationToken =>
+                                {
+                                    MemberDeclarationSyntax newMemberDeclaration = memberDeclaration;
+
+                                    if (memberDeclaration.IsKind(SyntaxKind.ConstructorDeclaration))
+                                        newMemberDeclaration = ModifierHelper.RemoveAccessModifiers(memberDeclaration);
+
+                                    return context.Document.InsertModifierAsync(newMemberDeclaration, SyntaxKind.StaticKeyword, ModifierComparer.Instance, cancellationToken);
+                                },
                                 GetEquivalenceKey(diagnostic));
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -306,7 +321,7 @@ namespace Roslynator.CSharp.CodeFixes
                                 break;
 
                             CodeAction codeAction = CodeAction.Create(
-                                $"Make {memberDeclaration.GetTitle()} non-static",
+                                $"Make containing {memberDeclaration.GetTitle()} non-static",
                                 cancellationToken => context.Document.RemoveModifierAsync(memberDeclaration, SyntaxKind.StaticKeyword, cancellationToken),
                                 GetEquivalenceKey(diagnostic));
 
